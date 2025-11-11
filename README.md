@@ -101,6 +101,109 @@
 * Xác định được 3-4 hồ sơ sinh viên điển hình từ kết quả phân cụm (ví dụ: Cụm 1: "Nhóm rủi ro cao", Cụm 2: "Nhóm cân bằng", Cụm 3: "Nhóm chăm chỉ").
 * [cite_start]Báo cáo hoàn chỉnh tuân thủ các quy định trình bày (font, lề,...) [cite: 81-84].
 
+### 📝 Dàn ý chi tiết đề tài: Phân tích và dự đoán kết quả học tập của sinh viên
+
+#### 1. Tên đề tài
+**Phân tích các yếu tố ảnh hưởng và Xây dựng mô hình dự đoán Kết quả học tập của sinh viên**
+
+#### 2. Mục tiêu nghiên cứu / phân tích
+* **Mục tiêu chính:** Xây dựng mô hình khai thác dữ liệu có khả năng dự đoán kết quả học tập cuối kỳ của sinh viên (ví dụ: "Đạt" hay "Không Đạt") dựa trên các yếu tố nhân khẩu học, xã hội và các thói quen học tập.
+* **Mục tiêu cụ thể:**
+    * Thực hiện thống kê mô tả chi tiết bộ dữ liệu (theo yêu cầu Phần 1).
+    * Khám phá và trực quan hóa (bằng Python) để tìm ra các yếu tố chính có tương quan mạnh mẽ đến điểm số cuối kỳ (ví dụ: thời gian học, số buổi vắng, hoạt động ngoại khóa, thói quen sử dụng rượu bia...).
+    * [cite_start]Thực hiện 2 phương pháp khai thác dữ liệu theo yêu cầu[cite: 48]:
+        1.  **Phân lớp (Classification):** Dự đoán sinh viên sẽ "Đạt" hay "Không Đạt".
+        2.  **Phân cụm (Clustering):** Phân nhóm các sinh viên có đặc điểm và hành vi tương đồng để xác định các "hồ sơ sinh viên" (ví dụ: nhóm chăm chỉ, nhóm rủi ro cao...).
+    * [cite_start]Mô phỏng một tác vụ xử lý dữ liệu trên Hadoop[cite: 52].
+    * [cite_start]Đánh giá hiệu quả và độ tin cậy của các mô hình đã xây dựng[cite: 56].
+
+#### 3. Dữ liệu sử dụng
+* [cite_start]**Nguồn dữ liệu:** "Student Performance Data Set" từ UCI Machine Learning Repository (có thể tìm thấy trên Kaggle [cite: 96]).
+* **Tổng quan:** Dữ liệu chứa thông tin về kết quả học tập (môn Toán hoặc Tiếng Bồ Đào Nha) của sinh viên trung học. Dữ liệu gốc có khoảng 649 sinh viên và 33 thuộc tính.
+* [cite_start]**Kiểu dữ liệu (Phân tích theo yêu cầu Phần 1 [cite: 6]):**
+    * [cite_start]**Số (Numeric)[cite: 39]:** `age` (tuổi), `absences` (số buổi vắng), `G1` (điểm kỳ 1), `G2` (điểm kỳ 2), `G3` (điểm cuối kỳ). [cite_start](Sẽ tính mean, median, five-number summary... [cite: 20]).
+    * [cite_start]**Nhị phân (Binary)[cite: 38]:** `schoolsup` (hỗ trợ thêm từ trường), `famsup` (hỗ trợ từ gia đình), `paid` (lớp học thêm trả phí), `activities` (tham gia ngoại khóa), `nursery` (học mẫu giáo), `higher` (muốn học cao hơn), `internet` (có Internet), `romantic` (đang hẹn hò). [cite_start](Sẽ tính tỷ lệ % và mode [cite: 12]).
+    * [cite_start]**Danh nghĩa (Nominal)[cite: 37]:** `school`, `sex` (giới tính), `address` (khu vực sống U/R), `Mjob` (nghề nghiệp mẹ), `Fjob` (nghề nghiệp cha), `reason` (lý do chọn trường). [cite_start](Sẽ tính tỷ lệ % và mode [cite: 12, 16]).
+    * [cite_start]**Thứ tự (Ordinal)[cite: 40]:**
+        * `Medu`, `Fedu` (trình độ học vấn cha/mẹ: 0-4).
+        * `traveltime` (thời gian di chuyển: 1-4).
+        * `studytime` (thời gian học hàng tuần: 1-4).
+        * `failures` (số lần thi rớt trước đó: 1-4).
+        * `famrel`, `freetime`, `goout`, `Dalc`, `Walc`, `health` (đánh giá theo thang 1-5). [cite_start](Sẽ tính tỷ lệ % và mode [cite: 12, 18]).
+* **Biến mục tiêu (Target):** `G3` (điểm cuối kỳ). Để phục vụ bài toán phân lớp, biến này sẽ được nhị phân hóa (ví dụ: tạo biến mới `Pass_Fail`, trong đó "Pass" nếu $G3 \ge 10$ và "Fail" nếu $G3 < 10$).
+
+#### 4. Công cụ và Thuật toán dự kiến
+* [cite_start]**Ngôn ngữ & Thư viện (bắt buộc dùng Python [cite: 44-47]):**
+    * **Python:** Ngôn ngữ lập trình chính.
+    * **Pandas & Numpy:** Dùng cho tiền xử lý, làm sạch và tổng hợp dữ liệu.
+    * **Matplotlib & Seaborn:** Dùng để trực quan hóa dữ liệu (vẽ Boxplot, Histogram, Scatter plot...).
+    * **Scikit-learn:** Dùng để triển khai các thuật toán khai thác dữ liệu và đánh giá mô hình.
+* **Công cụ Big Data:**
+    * [cite_start]**Hadoop:** Dùng để mô phỏng tác vụ xử lý[cite: 50].
+* [cite_start]**Thuật toán (chọn 2 phương pháp theo yêu cầu [cite: 48]):**
+    1.  **Phân lớp (Classification):** Cây quyết định (Decision Tree) hoặc Random Forest (để dự đoán `Pass_Fail`).
+    2.  **Phân cụm (Clustering):** K-Means (để phân nhóm sinh viên).
+
+#### 5. Các bước thực hiện (Bám sát 4 phần của dàn ý PDF)
+
+##### Phần 1: Giới thiệu CSDL
+* [cite_start]Trình bày tổng quan về bộ dữ liệu "Student Performance"[cite: 4].
+* [cite_start]Lập bảng mô tả chi tiết 33 thuộc tính: tên field, ý nghĩa, số giá trị null, số giá trị unique, kiểu dữ liệu [cite: 6-11].
+* Tính toán thống kê mô tả:
+    * [cite_start]Với các thuộc tính số (`age`, `absences`, `G1`, `G2`, `G3`): Tính mean, median, mode, min, max, five-number summary[cite: 20, 21].
+    * [cite_start]Với các thuộc tính nhị phân/danh nghĩa/thứ tự (`sex`, `studytime`, `internet`...): Lập bảng tần suất, tính tỷ lệ % và tìm mode[cite: 12].
+* [cite_start]Trình bày quá trình tiền xử lý[cite: 22]:
+    * Tạo biến mục tiêu `Pass_Fail` từ `G3`.
+    * Xử lý giá trị khuyết thiếu (nếu có).
+    * Chuyển đổi các biến danh nghĩa sang dạng số (One-Hot Encoding) nếu cần cho mô hình.
+
+##### [cite_start]Phần 2: Phân tích và Khai thác (Sử dụng Python [cite: 44-47])
+* **2.1. Tìm hiểu dữ liệu (Thống kê thủ công/Trực quan):**
+    * Chọn 3 thuộc tính: `G3`, `studytime`, `absences`.
+    * [cite_start]Vẽ **Boxplot** cho `G3` và `absences` (để xem phân bố và outliers)[cite: 28].
+    * [cite_start]Vẽ **Quantile-Quantile Plot** cho `G1` và `G2` (xem 2 biến điểm có phân phối tương đồng không)[cite: 29].
+    * [cite_start]Vẽ **Histogram** cho `G3` (xem phân bố điểm) và `studytime`[cite: 30].
+    * [cite_start]Vẽ **Scatter plot** cho `studytime` và `G3` (xem thời gian học ảnh hưởng điểm số)[cite: 31].
+    * [cite_start]Nhóm dữ liệu theo thuộc tính danh nghĩa `sex` (giới tính)[cite: 32]:
+        * [cite_start]Vẽ **Boxplot** của `G3` cho 2 nhóm "Male" và "Female"[cite: 33].
+        * [cite_start]Vẽ **Histogram** của `absences` cho 2 nhóm "Male" và "Female"[cite: 34].
+    * [cite_start]Đo lường sự tương đồng[cite: 35]:
+        * [cite_start]Chọn 4 thuộc tính: `Mjob` (danh nghĩa), `internet` (nhị phân), `age` (số), `studytime` (thứ tự) [cite: 36-40].
+        * [cite_start]Chọn 4 dòng dữ liệu (4 sinh viên)[cite: 41].
+        * Tính **Ma trận tương quan** (Pearson) cho các thuộc tính số.
+        * Tính **Độ đo Cosin** cho 4 vector sinh viên đã chọn.
+        * [cite_start]So sánh kết quả[cite: 43].
+* **2.2 - 2.4. Tiền xử lý, Tổng hợp, Trực quan hóa (bằng Python):**
+    * Sử dụng Pandas để chuẩn hóa dữ liệu số (ví dụ: StandardScaler).
+    * Sử dụng Seaborn để vẽ heatmap cho ma trận tương quan của tất cả các biến số.
+* **2.5. [cite_start]Thực hiện khai thác (bằng Python)[cite: 47]:**
+    * **Phương pháp 1: Phân lớp (Classification)**
+        * Sử dụng `scikit-learn` để chia dữ liệu (train/test split).
+        * Huấn luyện mô hình Cây quyết định (Decision Tree) để dự đoán biến `Pass_Fail` dựa trên các yếu tố (ví dụ: `studytime`, `failures`, `Medu`, `goout`, `absences`).
+    * **Phương pháp 2: Phân cụm (Clustering)**
+        * Sử dụng `scikit-learn` và thuật toán K-Means.
+        * Chọn các biến đầu vào (ví dụ: `studytime`, `absences`, `Walc`, `freetime`) để phân sinh viên thành K cụm (ví dụ: K=3).
+        * Phân tích đặc điểm của từng cụm (ví dụ: Cụm 1: chăm học, ít vắng; Cụm 2: lười học, vắng nhiều...).
+
+##### Phần 3: Giới thiệu về HADOOP
+* [cite_start]Giới thiệu tổng quan về Hadoop, HDFS, và MapReduce[cite: 50].
+* Trình bày (có thể chụp ảnh màn hình) các bước cài đặt Hadoop (ví dụ: trên máy ảo hoặc Docker).
+* [cite_start]Mô phỏng[cite: 52]: Viết một chương trình MapReduce đơn giản (bằng Python) và mô phỏng việc chạy nó trên Hadoop, ví dụ: "Đếm số lượng sinh viên Đạt/Không Đạt theo từng khu vực sống (`address`)".
+
+##### Phần 4: Đánh giá các mẫu kết quả
+* [cite_start]**Đánh giá mô hình Phân lớp (chọn 2)[cite: 65]:**
+    1.  [cite_start]**Số liệu để đánh giá hiệu suất phân loại (Metrics)**[cite: 66]: Sử dụng Ma trận nhầm lẫn (Confusion Matrix), tính các độ đo Accuracy, Precision, Recall, và F1-Score.
+    2.  [cite_start]**Xác thực chéo (Cross-Validation)**[cite: 69]: Sử dụng K-Fold Cross-Validation (ví dụ K=10) để đánh giá độ ổn định và tin cậy của mô hình, thay vì chỉ dùng 1 lần train/test split.
+* [cite_start]**Đánh giá mô hình Phân cụm (bắt buộc 2 phương pháp)[cite: 74]:**
+    1.  [cite_start]**Phương pháp không giám sát (Unsupervised)**[cite: 76]: Sử dụng chỉ số Silhouette (Silhouette Score) để đo lường mức độ tách biệt và cô đọng của các cụm đã tạo.
+    2.  [cite_start]**Phương pháp giám sát (Supervised)**[cite: 75]: (Dùng để kiểm chứng) So sánh các nhãn cụm (từ K-Means) với nhãn thực tế `Pass_Fail` (ví dụ: dùng Adjusted Rand Index) để xem các cụm K-Means có vô tình tìm ra được nhóm sinh viên "Đạt" và "Không Đạt" hay không.
+
+#### 6. Kết quả mong đợi
+* Một mô hình Cây quyết định có khả năng dự đoán sinh viên "Không Đạt" với độ chính xác (hoặc F1-score) định lượng được (ví dụ: F1-score > 70%).
+* Một biểu đồ trực quan hóa Cây quyết định, chỉ ra các "luật" quan trọng nhất để dự đoán (ví dụ: NẾU `failures > 2` VÀ `studytime = 1` THÌ dự đoán `Fail`).
+* Xác định được 3-4 hồ sơ sinh viên điển hình từ kết quả phân cụm (ví dụ: Cụm 1: "Nhóm rủi ro cao", Cụm 2: "Nhóm cân bằng", Cụm 3: "Nhóm chăm chỉ").
+* [cite_start]Báo cáo hoàn chỉnh tuân thủ các quy định trình bày (font, lề,...) [cite: 81-84].
+
 
 
 ### **BÁO CÁO ĐỀ TÀI CÁ NHÂN: MÔN KHAI THÁC DỮ LIỆU LỚN**
