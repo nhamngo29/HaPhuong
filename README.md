@@ -1,7 +1,3 @@
-Chắc chắn rồi. Dưới đây là dàn ý chi tiết cho đề tài **"Phân tích và dự đoán kết quả học tập của sinh viên"**, được xây dựng để tuân thủ nghiêm ngặt các yêu cầu trong tệp PDF dàn ý môn học của bạn.
-
----
-
 ### 📝 Dàn ý chi tiết đề tài: Phân tích và dự đoán kết quả học tập của sinh viên
 
 #### 1. Tên đề tài
